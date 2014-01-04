@@ -3,23 +3,35 @@ package card;
 import MyException.CardInitialException;
 
 public class Card {
-	
-	private int cardIndex;			//单张扑克牌的序数 
-	private int cardValue;			//扑克牌的面值
-	private int cardPattern;		//扑克牌的花色
-	private String cardString;		//先使用的扑克牌字符串
+
+	private int cardIndex; // 单张扑克牌的序数
+	private int cardValue; // 扑克牌的面值
+	private int cardPattern; // 扑克牌的花色
+	private String cardString; // 先使用的扑克牌字符串
 
 	public Card(int index) throws CardInitialException {
 		/*
 		 * 一副牌有52张，按照从A到K，从"黑"到"方"的顺序依次排列 index 就是排列的序数。
 		 */
 		if (index > 52 || index < 1) {
-			throw new CardInitialException("Card index 应该大于等于1，小于等于52。输入参数是:" + "["
-					+ index + "]");
+			throw new CardInitialException("Card index 应该大于等于1，小于等于52。输入参数是:"
+					+ "[" + index + "]");
 		}
 		this.cardIndex = index;
 		this.cardValue = (index - 1) % 13 + 1;
 		this.cardPattern = (index - 1) / 13;
+		this.cardString = getCardString();
+	}
+
+	public Card(int pattern, int value) throws CardInitialException {
+		if (pattern > 4 || pattern < 1 || value > 13 || value < 1)
+			throw new CardInitialException(
+					"pattern should be in {1,...,4} and value should be in {1 ,..., 13},but now they are "
+							+ pattern + " and " + value);
+
+		this.cardPattern = pattern;
+		this.cardValue = value;
+		this.cardIndex = value + (pattern-1)*13;
 		this.cardString = getCardString();
 	}
 
@@ -28,7 +40,7 @@ public class Card {
 	/**
 	 * @return 返回本张牌的花色和数字
 	 */
-	private String getCardString() {		
+	private String getCardString() {
 		String cStr = "";
 
 		cStr += "[" + Card.getPattern(this.getCardPattern()) + " ";
@@ -74,10 +86,10 @@ public class Card {
 	}
 
 	/*******************************************************************/
-	
-	static public String getPattern(int pattern){
+
+	static public String getPattern(int pattern) {
 		String MARK[] = { "黑", "红", "梅", "方" };
-		return MARK[pattern%4];
+		return MARK[pattern % 4];
 	}
 
 	public int getCardIndex() {
