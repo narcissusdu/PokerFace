@@ -2,11 +2,11 @@ package card;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+//import java.util.List;
 
 public class FiveCards {
 
-	private List<Card> cardsOf5;
+	private ArrayList<Card> cardsOf5;
 	private int totalCardNum;
 	private boolean sortedFlag;
 	private int cardPower;
@@ -17,8 +17,26 @@ public class FiveCards {
 		totalCardNum = 0;
 		cardsOf5 = new ArrayList<Card>();
 	}
-	
-	public void cleanCard(){
+
+	public ArrayList<Card> getCardsOf5() {
+		return this.cardsOf5;
+	}
+
+	public void setCardsOf5(ArrayList<Card> cardsOf5) {
+		this.cardsOf5 = cardsOf5;
+	}
+
+	public FiveCards(ArrayList<Card> cardList) {
+		if (cardList != null && cardList.size() == 5) {
+			this.cardsOf5 = cardList;
+			totalCardNum = 5;
+			Collections.sort(cardsOf5, new singleCardComparator());
+			this.setSortedFlag(true);
+			this.cardPower = this.getSuitCardPower();
+		}
+	}
+
+	public void cleanCard() {
 		cardPower = -1;
 		sortedFlag = false;
 		totalCardNum = 0;
@@ -173,22 +191,18 @@ public class FiveCards {
 			pattern[i] = fiveCards.getACard(i).getCardPattern();
 		}
 		/*
-		 * 判断是否是顺子：
-		 * 1. 是否是不带A的顺子：
-		 *    相间两张牌的值差是1；
-		 * 2. 带A的顺子：
-		 *	  第一张是2，则2,3,4,5，A
-		 *    第一张是10 则10，J，Q，K，A
+		 * 判断是否是顺子： 1. 是否是不带A的顺子： 相间两张牌的值差是1； 2. 带A的顺子： 第一张是2，则2,3,4,5，A 第一张是10
+		 * 则10，J，Q，K，A
 		 */
-		
-		if(value[1]-value[0]==1 && value[2]-value[1]==1 && value[3]-value[2]==1)
-		{
-			if(value[4]==1){
-				if((value[0]!=2)&&(value[0]!=10)){
+
+		if (value[1] - value[0] == 1 && value[2] - value[1] == 1
+				&& value[3] - value[2] == 1) {
+			if (value[4] == 1) {
+				if ((value[0] != 2) && (value[0] != 10)) {
 					return false;
 				}
-			}else{
-				if((value[4]-value[3]!=1)){
+			} else {
+				if ((value[4] - value[3] != 1)) {
 					return false;
 				}
 			}
@@ -205,13 +219,14 @@ public class FiveCards {
 		for (int i = 0; i < 5; i++) {
 			value[i] = fiveCards.getACard(i).getCardValue();
 		}
-		if(value[0]==value[1] && value[1]==value[2] && value[2]!=value[3] && value[3]!=value[4]){
+		if (value[0] == value[1] && value[1] == value[2]
+				&& value[2] != value[3] && value[3] != value[4]) {
 			return true;
-		}else
-		if(value[0]!=value[1] && value[1]==value[2] && value[2]==value[3] && value[3]!=value[4]){
+		} else if (value[0] != value[1] && value[1] == value[2]
+				&& value[2] == value[3] && value[3] != value[4]) {
 			return true;
-		}else
-		if(value[0]!=value[1] && value[1]!=value[2] && value[2]==value[3] && value[3]==value[4]){
+		} else if (value[0] != value[1] && value[1] != value[2]
+				&& value[2] == value[3] && value[3] == value[4]) {
 			return true;
 		}
 		return false;
@@ -225,13 +240,14 @@ public class FiveCards {
 		for (int i = 0; i < 5; i++) {
 			value[i] = fiveCards.getACard(i).getCardValue();
 		}
-		if(value[0]==value[1] && value[1]!=value[2] && value[2]==value[3] && value[3]!=value[4]){
+		if (value[0] == value[1] && value[1] != value[2]
+				&& value[2] == value[3] && value[3] != value[4]) {
 			return true;
-		}else
-		if(value[0]==value[1] && value[1]!=value[2] && value[2]!=value[3] && value[3]==value[4]){
+		} else if (value[0] == value[1] && value[1] != value[2]
+				&& value[2] != value[3] && value[3] == value[4]) {
 			return true;
-		}else
-		if(value[0]!=value[1] && value[1]==value[2] && value[2]!=value[3] && value[3]==value[4]){
+		} else if (value[0] != value[1] && value[1] == value[2]
+				&& value[2] != value[3] && value[3] == value[4]) {
 			return true;
 		}
 		return false;
@@ -245,18 +261,19 @@ public class FiveCards {
 		for (int i = 0; i < 5; i++) {
 			value[i] = fiveCards.getACard(i).getCardValue();
 		}
-		if(value[0]==value[1] && value[1]!=value[2] && value[2]!=value[3] && value[3]!=value[4]){
+		if (value[0] == value[1] && value[1] != value[2]
+				&& value[2] != value[3] && value[3] != value[4]) {
 			return true;
-		}else
-		if(value[0]!=value[1] && value[1]==value[2] && value[2]!=value[3] && value[3]!=value[4]){
+		} else if (value[0] != value[1] && value[1] == value[2]
+				&& value[2] != value[3] && value[3] != value[4]) {
 			return true;
-		}else
-		if(value[0]!=value[1] && value[1]!=value[2] && value[2]==value[3] && value[3]!=value[4]){
+		} else if (value[0] != value[1] && value[1] != value[2]
+				&& value[2] == value[3] && value[3] != value[4]) {
 			return true;
-		}else
-		if(value[0]!=value[1] && value[1]!=value[2] && value[2]!=value[3] && value[3]==value[4]){
+		} else if (value[0] != value[1] && value[1] != value[2]
+				&& value[2] != value[3] && value[3] == value[4]) {
 			return true;
-		}		
+		}
 		return false;
 	}
 
@@ -298,13 +315,21 @@ public class FiveCards {
 		return this.totalCardNum;
 	}
 
-	public void showCars() {
+	public void showCards() {
 		System.out.println("================================");
 		for (Card c : this.cardsOf5) {
 			c.showCard();
 			System.out.print(",");
 		}
 		System.out.println("\n================================");
+	}
+	
+	public String getCardsString(){
+		String result = "";
+		for (Card c : this.cardsOf5) {
+			result+=c.getCardString();
+		}
+		return result;
 	}
 
 	/**

@@ -24,14 +24,14 @@ public class Card {
 	}
 
 	public Card(int pattern, int value) throws CardInitialException {
-		if (pattern > 4 || pattern < 1 || value > 13 || value < 1)
+		if (pattern > 3 || pattern < 0 || value > 13 || value < 1)
 			throw new CardInitialException(
 					"pattern should be in {1,...,4} and value should be in {1 ,..., 13},but now they are "
 							+ pattern + " and " + value);
 
 		this.cardPattern = pattern;
 		this.cardValue = value;
-		this.cardIndex = value + (pattern-1)*13;
+		this.cardIndex = value + pattern*13;
 		this.cardString = getCardString();
 	}
 
@@ -40,7 +40,7 @@ public class Card {
 	/**
 	 * @return 返回本张牌的花色和数字
 	 */
-	private String getCardString() {
+	public String getCardString() {
 		String cStr = "";
 
 		cStr += "[" + Card.getPattern(this.getCardPattern()) + " ";

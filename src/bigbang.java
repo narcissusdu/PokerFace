@@ -132,7 +132,7 @@ public class bigbang {
 			fiveCard_1.addCard(new Card(17));             
 			count[fiveCard_1.getCardPower()]++;
 			
-			fiveCard_1.showCars();
+			fiveCard_1.showCards();
 			System.out.println(FiveCards.getCardPowerDesc(fiveCard_1.getCardPower()));
 		}
 		
