@@ -181,13 +181,14 @@ public class FiveCards {
 		 *    第一张是10 则10，J，Q，K，A
 		 */
 		
-		if(value[2]-value[1]==1 && value[3]-value[2]==1){
+		if(value[1]-value[0]==1 && value[2]-value[1]==1 && value[3]-value[2]==1)
+		{
 			if(value[4]==1){
 				if((value[0]!=2)&&(value[0]!=10)){
 					return false;
 				}
 			}else{
-				if((value[1]-value[0]!=1)&&(value[4]-value[3]!=1)){
+				if((value[4]-value[3]!=1)){
 					return false;
 				}
 			}
