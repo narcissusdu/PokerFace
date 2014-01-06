@@ -1,106 +1,67 @@
 package card;
 
-import MyException.CardInitialException;
-
 public class Card {
+	private final static String[] valueShowStyle = { null, "A", "1", "2", "3",
+			"4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+	private final static String[] patternShowStyle = { "黑", "红", "梅", "方" };
 
-	private int cardIndex; // 单张扑克牌的序数
-	private int cardValue; // 扑克牌的面值
-	private int cardPattern; // 扑克牌的花色
-	private String cardString; // 先使用的扑克牌字符串
+	private int index; // 单张扑克牌的序数
+	private int value; // 扑克牌的面值
+	private int pattern; // 扑克牌的花色
 
-	public Card(int index) throws CardInitialException {
+	public Card(int index) throws Exception {
 		/*
 		 * 一副牌有52张，按照从A到K，从"黑"到"方"的顺序依次排列 index 就是排列的序数。
 		 */
-		if (index > 52 || index < 1) {
-			throw new CardInitialException("Card index 应该大于等于1，小于等于52。输入参数是:"
-					+ "[" + index + "]");
-		}
-		this.cardIndex = index;
-		this.cardValue = (index - 1) % 13 + 1;
-		this.cardPattern = (index - 1) / 13;
-		this.cardString = getCardString();
+		if (index > 52 || index < 1)
+			throw new Exception(
+					"index should be in {1 ,..., 52}, but now it is " + index);
+		this.index = index;
+		this.value = (index - 1) % 13 + 1;
+		this.pattern = (index - 1) / 13;
 	}
 
-	public Card(int pattern, int value) throws CardInitialException {
+	public Card(int pattern, int value) throws Exception {
 		if (pattern > 3 || pattern < 0 || value > 13 || value < 1)
-			throw new CardInitialException(
-					"pattern should be in {1,...,4} and value should be in {1 ,..., 13},but now they are "
+			throw new Exception(
+					"pattern should be in {1,...,4} and value should be in {1 ,..., 13}, but now they are "
 							+ pattern + " and " + value);
-
-		this.cardPattern = pattern;
-		this.cardValue = value;
-		this.cardIndex = value + pattern*13;
-		this.cardString = getCardString();
+		this.pattern = pattern;
+		this.value = value;
+		this.index = value + pattern * 13;
 	}
 
-	/*******************************************************************/
+	public int getIndex() {
+		return this.index;
+	}
+
+	public int getValue() {
+		return this.value == 1 ? 14 : this.value;
+
+	}
+
+	public int getFaceValue() {
+		return this.value;
+	}
+
+	public int getPattern() {
+		return this.pattern;
+	}
 
 	/**
 	 * @return 返回本张牌的花色和数字
 	 */
 	public String getCardString() {
-		String cStr = "";
-
-		cStr += "[" + Card.getPattern(this.getCardPattern()) + " ";
-		switch (this.cardValue) {
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-		case 8:
-		case 9:
-		case 10: {
-			cStr += this.cardValue;
-			break;
-		}
-		case 1: {
-			cStr += "A";
-			break;
-		}
-		case 11: {
-			cStr += "J";
-			break;
-		}
-		case 12: {
-			cStr += "Q";
-			break;
-		}
-		case 13: {
-			cStr += "K";
-			break;
-		}
-		}
-		/*
-		 * if (this.cardValue != 10) { cStr += " "; }
-		 */
-		cStr += "]";
-		return cStr;
+		StringBuilder sb = new StringBuilder();
+		sb.append('[');
+		sb.append(patternShowStyle[this.getPattern()]);
+		sb.append(valueShowStyle[this.getFaceValue()]);
+		sb.append(']');
+		return sb.toString();
 	}
 
 	public void showCard() {
-		System.out.print(this.cardString);
+		System.out.print(this.getCardString());
 	}
 
-	/*******************************************************************/
-
-	static public String getPattern(int pattern) {
-		String MARK[] = { "黑", "红", "梅", "方" };
-		return MARK[pattern % 4];
-	}
-
-	public int getCardIndex() {
-		return this.cardIndex;
-	}
-
-	public int getCardValue() {
-		return this.cardValue;
-	}
-
-	public int getCardPattern() {
-		return this.cardPattern;
-	}
 }

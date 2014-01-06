@@ -1,30 +1,30 @@
 package card;
 
-import java.util.ArrayList;
-
 public class CardProcessor {
-	private static fiveCardsComparator comparator;
-	private static FiveCards knownCards;
-	public static int smallerCount;
-	public static int largerCount;
-	public static int equalCount;
-	public static int[] powerArray;
+
+	private fiveCardsComparator comparator;
+	private FiveCards knownCards;
+	private int smallerCount;
+	private int largerCount;
+	private int equalCount;
+	private int[] powerArray;
 
 	// public static int i = 0;
 
-	public void Reset(FiveCards fc) {
+	public CardProcessor(FiveCards fc) {
 		// i=0;
 		smallerCount = 0;
 		largerCount = 0;
 		equalCount = 0;
-		this.knownCards = fc;
-		this.comparator = new fiveCardsComparator();
-		this.powerArray = new int[10];
+		knownCards = fc;
+		comparator = new fiveCardsComparator();
+		powerArray = new int[10];
 		for (int i = 0; i < 10; i++)
-			this.powerArray[i] = 0;
+			powerArray[i] = 0;
 	}
 
 	public void ShowResult() {
+		this.knownCards.showCards();
 		System.out.println("total count: "
 				+ (smallerCount + largerCount + equalCount));
 		// System.out.println("smaller count: " + smallerCount);
@@ -34,28 +34,15 @@ public class CardProcessor {
 				.println("winning hand :"
 						+ ((double) smallerCount / (smallerCount + equalCount + largerCount)));
 		for (int i = 0; i < 10; i++)
-			System.out.println("" + this.powerArray[i] + "\tof\t"
+			System.out.println("" + powerArray[i] + "\tof\t"
 					+ FiveCards.getCardPowerDesc(i));
 	}
 
-	// public void Process(ArrayList<Card> cardList) {
-	// for (int i = 0; i < cardList.size(); i++) {
-	// System.out.print(i);
-	// cardList.get(i).showCard();
-	// }
-	// System.out.println(++i);
-	// System.out.println();
-	//
-	// };
+	public void Process(FiveCards fc) {
 
-	public void Process(ArrayList<Card> cardList) {
+		int cmpResult = comparator.compare(knownCards, fc);
 
-		// i++;
-		FiveCards fc = new FiveCards(cardList);
-
-		int cmpResult = this.comparator.compare(knownCards, fc);
-
-		this.powerArray[fc.getCardPower()]++;
+		powerArray[fc.getCardPower()]++;
 
 		if (cmpResult > 0) {
 			// fc.showCards();

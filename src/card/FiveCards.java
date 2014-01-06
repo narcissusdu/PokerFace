@@ -2,9 +2,13 @@ package card;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 //import java.util.List;
 
 public class FiveCards {
+	private final static String[] powerName = { "[Royal Flush]", "[Straight Flush]",
+			"[Four of A Kind]", "[Full House]", "[Flush]", "[Straight]",
+			"[Three of A Kind]", "[Two Pairs]", "[One Pair]", "[High Card]" };
 
 	private ArrayList<Card> cardsOf5;
 	private int totalCardNum;
@@ -114,8 +118,8 @@ public class FiveCards {
 	 * AKQJ10五张组成，并且这5张牌花色相同
 	 */
 	static public boolean isRoyalFlush(FiveCards fiveCards) {
-		if (fiveCards.getACard(0).getCardValue() == 10
-				&& fiveCards.getACard(4).getCardValue() == 1
+		if (fiveCards.getACard(0).getFaceValue() == 10
+				&& fiveCards.getACard(4).getFaceValue() == 1
 				&& isStraightFlush(fiveCards) == true) {
 			return true;
 		}
@@ -138,7 +142,7 @@ public class FiveCards {
 	static public boolean isFourOfAKind(FiveCards fiveCards) {
 		int value[] = new int[5];
 		for (int i = 0; i < 5; i++) {
-			value[i] = fiveCards.getACard(i).getCardValue();
+			value[i] = fiveCards.getACard(i).getFaceValue();
 		}
 
 		if ((value[1] == value[2] && value[1] == value[3])
@@ -155,7 +159,7 @@ public class FiveCards {
 
 		int value[] = new int[5];
 		for (int i = 0; i < 5; i++) {
-			value[i] = fiveCards.getACard(i).getCardValue();
+			value[i] = fiveCards.getACard(i).getFaceValue();
 		}
 
 		if ((value[0] == value[1] && value[3] == value[4])
@@ -171,7 +175,7 @@ public class FiveCards {
 	static public boolean isFlush(FiveCards fiveCards) {
 		int pattern[] = new int[5];
 		for (int i = 0; i < 5; i++) {
-			pattern[i] = fiveCards.getACard(i).getCardPattern();
+			pattern[i] = fiveCards.getACard(i).getPattern();
 		}
 		if (pattern[0] == pattern[1] && pattern[0] == pattern[2]
 				&& pattern[0] == pattern[3] && pattern[0] == pattern[4]) {
@@ -187,8 +191,8 @@ public class FiveCards {
 		int value[] = new int[5];
 		int pattern[] = new int[5];
 		for (int i = 0; i < 5; i++) {
-			value[i] = fiveCards.getACard(i).getCardValue();
-			pattern[i] = fiveCards.getACard(i).getCardPattern();
+			value[i] = fiveCards.getACard(i).getFaceValue();
+			pattern[i] = fiveCards.getACard(i).getPattern();
 		}
 		/*
 		 * 判断是否是顺子： 1. 是否是不带A的顺子： 相间两张牌的值差是1； 2. 带A的顺子： 第一张是2，则2,3,4,5，A 第一张是10
@@ -217,7 +221,7 @@ public class FiveCards {
 	static public boolean isThreeOfAKind(FiveCards fiveCards) {
 		int value[] = new int[5];
 		for (int i = 0; i < 5; i++) {
-			value[i] = fiveCards.getACard(i).getCardValue();
+			value[i] = fiveCards.getACard(i).getFaceValue();
 		}
 		if (value[0] == value[1] && value[1] == value[2]
 				&& value[2] != value[3] && value[3] != value[4]) {
@@ -238,7 +242,7 @@ public class FiveCards {
 	static public boolean isTwoPairs(FiveCards fiveCards) {
 		int value[] = new int[5];
 		for (int i = 0; i < 5; i++) {
-			value[i] = fiveCards.getACard(i).getCardValue();
+			value[i] = fiveCards.getACard(i).getFaceValue();
 		}
 		if (value[0] == value[1] && value[1] != value[2]
 				&& value[2] == value[3] && value[3] != value[4]) {
@@ -259,7 +263,7 @@ public class FiveCards {
 	static public boolean isOnePair(FiveCards fiveCards) {
 		int value[] = new int[5];
 		for (int i = 0; i < 5; i++) {
-			value[i] = fiveCards.getACard(i).getCardValue();
+			value[i] = fiveCards.getACard(i).getFaceValue();
 		}
 		if (value[0] == value[1] && value[1] != value[2]
 				&& value[2] != value[3] && value[3] != value[4]) {
@@ -288,15 +292,12 @@ public class FiveCards {
 	 * 返回具体牌型的名字
 	 */
 	static public String getCardPowerDesc(int power) {
-		String PowerName[] = { "[Royal Flush]", "[Straight Flush]",
-				"[Four of A Kind]", "[Full House]", "[Flush]", "[Straight]",
-				"[Three of A Kind]", "[Two Pairs]", "[One Pair]", "[High Card]" };
 
 		if (power == -1) {
 			return "[还未成一套牌]";
 		}
 
-		return PowerName[power];
+		return powerName[power];
 	}
 
 	public boolean isSortedFlag() {
@@ -323,11 +324,11 @@ public class FiveCards {
 		}
 		System.out.println("\n================================");
 	}
-	
-	public String getCardsString(){
+
+	public String getCardsString() {
 		String result = "";
 		for (Card c : this.cardsOf5) {
-			result+=c.getCardString();
+			result += c.getCardString();
 		}
 		return result;
 	}
